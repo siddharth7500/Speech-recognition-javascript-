@@ -1,0 +1,21 @@
+body
+{ 
+background-color: aqua;
+}
+div.justified {
+        display: flex;
+        justify-content: center;
+    }
+
+div.topright {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+  font-size: 18px;
+}
+ .button-demo
+      {
+        padding: 0.5em;
+        display: inline-block;
+        margin: 1em auto;
+      }

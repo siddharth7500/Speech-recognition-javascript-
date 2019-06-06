@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>HEY WELCOME TO SPEECH TO TEXT</title>
+</head>
+<link rel="stylesheet" href="design.css">
+
+<script type="text/javascript">
+
+
+function startConverting()
+{
+if('webkitSpeechRecognition' in window)
+{
+var speechRecognizer= new webkitSpeechRecognition();
+speechRecognizer.continuous=true;
+speechRecognizer.interimResults=true;
+speechRecognizer.lang='en-IN';
+speechRecognizer.start();
+var wuw= false;
+var finalText='';
+var t12= document.getElementById("t1");
+var t13= document.getElementById("t2");
+var flag='';
+
+speechRecognizer.onresult =function(event){
+var interimText='';
+var len=event.results.length;
+for(var i=event.resultIndex;i<len;i++){
+var transcript=event.results[i][0].transcript;
+transcript.replace("\n","<br>");
+if(event.results[i].isFinal){
+finalText += transcript;
+}
+else{
+interimText += transcript;
+}
+}
+flag=(finalText + interimText).toLowerCase();
+
+if(flag.indexOf("ok jojo")!== -1 && wuw== false)
+{
+wuw=true;
+flag=flag.replace(flag.substr(0,flag.length),"");
+alert("speech started!!");
+}
+
+flag=flag.replace(flag.substr(0,flag.indexOf("jojo")+4),"");
+if(wuw)
+{
+t12.value=flag;
+}
+ };
+ 
+speechRecognizer.onerror = function(event){
+t12.value ="Sorry !! An error Occured";
+};
+}
+else{
+t12.value ="SORRY!!! your browser does not support this api" ;
+}
+//to end
+speechRecognizer.onspeechend = function() {
+  recognition.stop();
+  alert("Speech recognition has stopped.");
+ 
+}
+function clearT()
+{
+t12.value=null;
+}
+
+}
+
+</script>
+
+<body onload="startConverting()">
+<h1 align="center" text-size="20px" ><marquee>Say "OK JOJO" to Activate JOJO</marquee></h1>
+<textarea id="t1" rows=10 text-align="center" style="width:500px;background-color: #fff;color:black;">
+</textarea>
+<textarea id="t2" rows=10 text-align="center" style="width:500px;background-color: #fff;color:black;">
+</textarea>
+</body>
+</html>

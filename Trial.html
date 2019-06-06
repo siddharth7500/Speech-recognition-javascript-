@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>HEY WELCOME TO SPEECH TO TEXT</title>
+</head>
+<link rel="stylesheet" href="design.css">
+
+<script type="text/javascript">
+
+
+function startConverting()
+{
+if('webkitSpeechRecognition' in window)
+{
+var speechRecognizer= new webkitSpeechRecognition();
+speechRecognizer.continuous=true;
+speechRecognizer.interimResults=true;
+speechRecognizer.lang='en-IN';
+speechRecognizer.start();
+
+var finalText='';
+var t12= document.getElementById("t1");
+var flag=false;
+
+speechRecognizer.onresult =function(event){
+var interimText='';
+var len=event.results.length;
+for(var i=event.resultIndex;i<len;i++){
+var transcript=event.results[i][0].transcript;
+transcript.replace("\n","<br>");
+if(event.results[i].isFinal){
+finalText += transcript;
+}
+else{
+interimText += transcript;
+}
+}
+t12.value = finalText + interimText;
+ };
+ 
+speechRecognizer.onerror = function(event){
+t12.value ="Sorry !! An error Occured";
+};
+}
+else{
+t12.value ="SORRY!!! your browser does not support this api" ;
+}
+//to end
+speechRecognizer.onspeechend = function() {
+  recognition.stop();
+  alert("Speech recognition has stopped.");
+ 
+}
+function clearT()
+{
+t12.value=null;
+}
+
+}
+
+</script>
+
+<body onload="startConverting()">
+<h1 align="center" text-size="20px" ><marquee>Say "OK JOJO" to Activate JOJO</marquee></h1>
+<textarea id="t1" rows=10 text-align="center" style="width:500px;background-color: #fff;color:black;">
+</textarea>
+
+<div class="buttons-wrapper" align="center">
+      <button id="clear-all" class="button-demo" onclick="clearT()">Clear all</button>
+    </div>
+</body>
+</html>

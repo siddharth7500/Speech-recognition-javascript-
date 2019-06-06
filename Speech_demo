@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>HEY WELCOME TO SPEECH TO TEXT</title>
+</head>
+<link rel="stylesheet" href="design.css">
+
+<script type="text/javascript">
+var t12= document.getElementById('t1');
+
+function startConverting()
+{
+if('webkitSpeechRecognition' in window)
+{
+var speechRecognizer= new webkitSpeechRecognition();
+speechRecognizer.continuous=true;
+speechRecognizer.interimResults=true;
+speechRecognizer.lang='en-IN';
+speechRecognizer.start();
+
+var finalText='';
+
+
+speechRecognizer.onresult= function(event){
+var interimText='';
+var len= event.results.length;
+for(var i=event.resultIndex;i<len;i++){
+var transcript=event.results[i][0].transcript;
+transcript.replace("\n","<br>");
+if(event.results[i].isFinal){
+finalText += transcript;
+}
+else{
+interimText += transcript;
+}
+}
+t12.value = finalText + '<span style="color:#999">' +interimText +'</span>';
+ };
+ 
+speechRecognizer.onerror= function(event){
+t12.value ="Sorry !! An error Occured";
+};
+}
+else{
+t12.value ="SORRY!!! your browser does not support this api" ;
+}
+}
+
+function stopConverting()
+{
+alert("Speech Recognition Terminated");
+speechRecognizer.stop();
+}
+</script>
+
+<body>
+<h1 align="center" text-size="20px" ><marquee>Say "OK JOJO" to Activate JOJO</marquee></h1>
+<textarea id="t1" rows=10 text-align="center" style="width:500px;background-color: #fff;color:black;">
+</textarea>
+
+<div class="buttons-wrapper" align="center">
+      <button id="button-play" class="button-demo" onclick="startConverting()">Play demo</button>
+      <button id="button-stop" class="button-demo" onclick="stopConverting()">Stop demo</button>
+      <button id="clear-all" class="button-demo">Clear all</button>
+    </div>
+</body>
+</html>
